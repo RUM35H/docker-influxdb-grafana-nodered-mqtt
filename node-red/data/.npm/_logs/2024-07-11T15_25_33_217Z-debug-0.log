@@ -1,0 +1,29 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.7.0
+2 info using node@v20.15.0
+3 silly config:load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config:load:file:/usr/src/node-red/.npmrc
+5 silly config:load:file:/usr/local/etc/npmrc
+6 verbose title npm start --userDir /data
+7 verbose argv "start" "--" "--userDir" "/data"
+8 verbose logfile logs-max:10 dir:/data/.npm/_logs/2024-07-11T15_25_33_217Z-
+9 verbose logfile /data/.npm/_logs/2024-07-11T15_25_33_217Z-debug-0.log
+10 silly logfile start cleaning logs, removing 1 files
+11 silly logfile done cleaning log files
+12 verbose stack Error: command failed
+12 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:53:27)
+12 verbose stack     at ChildProcess.emit (node:events:519:28)
+12 verbose stack     at maybeClose (node:internal/child_process:1105:16)
+12 verbose stack     at ChildProcess._handle.onexit (node:internal/child_process:305:5)
+13 verbose pkgid node-red-docker@4.0.2
+14 verbose cwd /usr/src/node-red
+15 verbose Linux 5.15.153.1-microsoft-standard-WSL2
+16 verbose node v20.15.0
+17 verbose npm  v10.7.0
+18 error path /usr/src/node-red
+19 error command failed
+20 error signal SIGTERM
+21 error command sh -c node $NODE_OPTIONS node_modules/node-red/red.js $FLOWS --userDir /data
+22 verbose exit 1
+23 verbose code 1
+24 error A complete log of this run can be found in: /data/.npm/_logs/2024-07-11T15_25_33_217Z-debug-0.log

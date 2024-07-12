@@ -1,18 +1,27 @@
 version: "3"
-services: 
+services:
   influxdb:
-    image: influxdb
+    image: influxdb:2.7.6
     container_name: influxdb
+    build:
+      context: .
+      dockerfile: "influxdb/Dockerfile"
+    networks:
+      - common_network
     ports:
-      - "8086:8086"        
+      - "8086:8086"
     env_file:
       - 'influxdb.env'
     volumes:
       - "influxdb-data:/var/lib/influxdb"
+      - shared-data:/shared
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana
     container_name: grafana
+    networks:
+      - common_network
     ports:
       - "3000:3000"
     env_file:
@@ -20,28 +29,50 @@ services:
     user: "0"
     volumes:
       - "grafana-data:/var/lib/grafana"
-  
+
   node-red:
-    image: nodered/node-red
+    image: nodered/node-red:4.0.2-debian
     container_name: node-red
+    networks:
+      - common_network
     ports:
       - "1880:1880"
+    depends_on:
+      - influxdb
+      - mosquitto
     volumes:
-      - "node-red-data:/data"
-  
+      - "./node-red/data:/data"
+    environment:
+      - TZ=UTC+1
+    restart: unless-stopped
+
   mosquitto:
     image: eclipse-mosquitto
+    build:
+      context: .
+      dockerfile: "mosquitto/Dockerfile"
     container_name: mosquitto
+    networks:
+      - common_network
     ports:
       - "1883:1883"
       - "9001:9001"
     volumes:
       - "mosquitto-data:/mosquitto"
+      - ./mosquitto/config:/mosquitto/config:rw
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    env_file:
+      - "mosquitto.env"
+    restart: unless-stopped
+
+networks:
+  common_network:
+    name: docker-influxdb-grafana-nodered-mqtt_common_network
 
 volumes:
   influxdb-data:
-  grafana-data:        
+  grafana-data:
   node-red-data:
   mosquitto-data:
-
-
+  shared-data:
